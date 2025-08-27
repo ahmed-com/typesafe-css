@@ -1,0 +1,77 @@
+{
+  "version": "v1.1.0",
+  "properties": [
+    {
+      "name": "display",
+      "keywords": ["none", "block", "inline", "inline-block", "flex", "inline-flex", "grid", "inline-grid", "table", "table-cell", "table-row", "list-item", "contents", "flow-root"],
+      "syntax": "[ <display-outside> || <display-inside> ] | <display-listitem> | <display-internal> | <display-box> | <display-legacy>",
+      "status": "standard"
+    },
+    {
+      "name": "position",
+      "keywords": ["static", "relative", "absolute", "fixed", "sticky"],
+      "syntax": "static | relative | absolute | fixed | sticky",
+      "status": "standard"
+    },
+    {
+      "name": "text-align",
+      "keywords": ["left", "right", "center", "justify", "start", "end", "match-parent"],
+      "syntax": "start | end | left | right | center | justify | match-parent",
+      "status": "standard"
+    },
+    {
+      "name": "flex-direction",
+      "keywords": ["row", "row-reverse", "column", "column-reverse"],
+      "syntax": "row | row-reverse | column | column-reverse",
+      "status": "standard"
+    },
+    {
+      "name": "justify-content",
+      "keywords": ["flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly", "start", "end", "left", "right", "normal", "stretch"],
+      "syntax": "normal | <content-distribution> | <overflow-position>? [ <content-position> | left | right ]",
+      "status": "standard"
+    },
+    {
+      "name": "align-items",
+      "keywords": ["flex-start", "flex-end", "center", "baseline", "stretch", "start", "end", "self-start", "self-end", "normal"],
+      "syntax": "normal | stretch | <baseline-position> | [ <overflow-position>? <self-position> ]",
+      "status": "standard"
+    },
+    {
+      "name": "font-weight",
+      "keywords": ["normal", "bold", "bolder", "lighter", "100", "200", "300", "400", "500", "600", "700", "800", "900"],
+      "syntax": "normal | bold | bolder | lighter | <number [1,1000]>",
+      "status": "standard"
+    },
+    {
+      "name": "font-style",
+      "keywords": ["normal", "italic", "oblique"],
+      "syntax": "normal | italic | oblique <angle [-90deg,90deg]>?",
+      "status": "standard"
+    },
+    {
+      "name": "text-decoration-line",
+      "keywords": ["none", "underline", "overline", "line-through", "blink"],
+      "syntax": "none | [ underline || overline || line-through || blink ] | spelling-error | grammar-error",
+      "status": "standard"
+    },
+    {
+      "name": "visibility",
+      "keywords": ["visible", "hidden", "collapse"],
+      "syntax": "visible | hidden | collapse",
+      "status": "standard"
+    },
+    {
+      "name": "overflow",
+      "keywords": ["visible", "hidden", "clip", "scroll", "auto"],
+      "syntax": "[ visible | hidden | clip | scroll | auto ]{1,2}",
+      "status": "standard"
+    },
+    {
+      "name": "cursor",
+      "keywords": ["auto", "default", "none", "context-menu", "help", "pointer", "progress", "wait", "cell", "crosshair", "text", "vertical-text", "alias", "copy", "move", "no-drop", "not-allowed", "grab", "grabbing", "e-resize", "n-resize", "ne-resize", "nw-resize", "s-resize", "se-resize", "sw-resize", "w-resize", "ew-resize", "ns-resize", "nesw-resize", "nwse-resize", "col-resize", "row-resize", "all-scroll", "zoom-in", "zoom-out"],
+      "syntax": "[ [ <url> [ <x> <y> ]? , ]* [ auto | default | none | context-menu | help | pointer | progress | wait | cell | crosshair | text | vertical-text | alias | copy | move | no-drop | not-allowed | e-resize | n-resize | ne-resize | nw-resize | s-resize | se-resize | sw-resize | w-resize | ew-resize | ns-resize | nesw-resize | nwse-resize | col-resize | row-resize | all-scroll | zoom-in | zoom-out | grab | grabbing ] ]",
+      "status": "standard"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDN-Validated CSS Demo</title>
+    <style>
+        ZgotmplZ
+        
+         
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .modern-card {
+            background: white;
+            margin: 1rem;
+            min-height: 200px;
+        }
+        
+        .resizable {
+            background: #f0f0f0;
+            padding: 1rem;
+            border: 2px dashed #ccc;
+            margin: 0.5rem;
+        }
+        
+        .zoomable {
+            background: #e6f3ff;
+            padding: 1rem;
+            border: 1px solid #0066cc;
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <div class="modern-card interactive">
+            <h2>MDN-Validated CSS Properties</h2>
+            <div class="text-content">
+                <p>This card demonstrates new CSS properties added through MDN validation:</p>
+                <ul>
+                    <li><strong>display: flex</strong> - Modern flexbox layout</li>
+                    <li><strong>justify-content: space-between</strong> - Enhanced alignment</li>
+                    <li><strong>text-align: start</strong> - Logical alignment</li>
+                    <li><strong>overflow: clip</strong> - Modern overflow handling</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="modern-card">
+            <h3>Interactive Elements</h3>
+            <div class="resizable interactive">
+                <p>Hover over me - I show a column resize cursor!</p>
+            </div>
+            <div class="zoomable interactive">
+                <p>Hover over me - I show a zoom-in cursor!</p>
+            </div>
+        </div>
+
+        <div class="modern-card">
+            <h3>Special Display Types</h3>
+            <div class="layout-wrapper">
+                <div class="clearfix">
+                    <p>This content uses <code>display: contents</code> for the wrapper and <code>display: flow-root</code> for clearfix.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
