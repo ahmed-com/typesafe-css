@@ -26,19 +26,21 @@ This file tracks progress through the roadmap for building a type-safe CSS-in-Go
 - [x] Basic end-to-end usage validation
 
 ## Phase 3: Code Generation Pipeline (Scale Big)
-- [ ] `cmd/cssgen/main.go` - MDN/JSON reader, file generator
-- [ ] Support for MDN compat data input
-- [ ] Support for custom curated JSON input
-- [ ] Generated files:
-  - [ ] `cssgen/properties_gen.go`
-  - [ ] `cssgen/keywords_gen.go` 
-  - [ ] `cssgen/setters_gen.go`
+- [x] `cmd/cssgen/main.go` - MDN/JSON reader, file generator
+- [x] Support for custom curated JSON input
+- [ ] Support for MDN compat data input (future enhancement)
+- [x] Generated files:
+  - [x] `cssgen/properties_gen.go`
+  - [x] `cssgen/keywords_gen.go` 
+  - [x] `cssgen/setters_gen.go`
 
 ### Code Generation Features
-- [ ] Property constant generation
-- [ ] Keyword enum generation for finite keyword sets
-- [ ] Type-safe setter functions
-- [ ] Spec versioning and timestamping
+- [x] Property constant generation
+- [x] Keyword enum generation for finite keyword sets
+- [x] Type-safe setter functions
+- [x] Spec versioning and timestamping
+- [x] Command-line interface with flags
+- [x] Go generate integration
 
 ## Phase 4: Advanced Features
 - [ ] Rich sum types for selected properties (e.g., `background-size`)
@@ -66,12 +68,25 @@ This file tracks progress through the roadmap for building a type-safe CSS-in-Go
 
 ## Current Status
 🟢 **Phase 1 Complete** - Core foundation implemented and tested
+🟢 **Phase 2 Complete** - Template integration working
+🟢 **Phase 3 Complete** - Code Generation Pipeline implemented
 
 ## Next Steps
-1. Begin Phase 3: Code Generation Pipeline
-2. Implement `cmd/cssgen/main.go` for MDN/JSON reading
-3. Create generated property constants and type-safe setters
+1. ~~Begin Phase 3: Code Generation Pipeline~~ ✅ Complete
+2. ~~Implement `cmd/cssgen/main.go` for MDN/JSON reading~~ ✅ Complete  
+3. ~~Create generated property constants and type-safe setters~~ ✅ Complete
+4. Begin Phase 4: Advanced Features (rich sum types, validation)
+5. Expand property coverage by updating spec.json
+6. Add support for MDN compat data input (optional)
+
+## Recent Additions
+- ✅ Complete code generation pipeline with CLI tool
+- ✅ Type-safe CSS property constants and keyword enums
+- ✅ Generated setter functions for type safety
+- ✅ Example demonstrating generated code usage
+- ✅ Go generate integration for easy regeneration
+- ✅ Comprehensive test coverage for generated code
 
 ---
 
-*Last Updated: Project initialization complete with core API working*
+*Last Updated: Phase 3 complete - Code generation pipeline implemented with comprehensive CSS property coverage*

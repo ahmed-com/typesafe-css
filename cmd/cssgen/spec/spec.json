@@ -1,0 +1,77 @@
+{
+  "version": "v1.0.0",
+  "properties": [
+    {
+      "name": "display",
+      "keywords": ["none", "block", "inline", "inline-block", "flex", "inline-flex", "grid", "inline-grid", "table", "table-cell", "table-row", "list-item"],
+      "syntax": "none | block | inline | inline-block | flex | inline-flex | grid | inline-grid | table | table-cell | table-row | list-item | ...",
+      "status": "standard"
+    },
+    {
+      "name": "position",
+      "keywords": ["static", "relative", "absolute", "fixed", "sticky"],
+      "syntax": "static | relative | absolute | fixed | sticky",
+      "status": "standard"
+    },
+    {
+      "name": "text-align",
+      "keywords": ["left", "right", "center", "justify", "start", "end"],
+      "syntax": "left | right | center | justify | start | end",
+      "status": "standard"
+    },
+    {
+      "name": "flex-direction",
+      "keywords": ["row", "row-reverse", "column", "column-reverse"],
+      "syntax": "row | row-reverse | column | column-reverse",
+      "status": "standard"
+    },
+    {
+      "name": "justify-content",
+      "keywords": ["flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly"],
+      "syntax": "flex-start | flex-end | center | space-between | space-around | space-evenly",
+      "status": "standard"
+    },
+    {
+      "name": "align-items",
+      "keywords": ["flex-start", "flex-end", "center", "baseline", "stretch"],
+      "syntax": "flex-start | flex-end | center | baseline | stretch",
+      "status": "standard"
+    },
+    {
+      "name": "font-weight",
+      "keywords": ["normal", "bold", "bolder", "lighter", "100", "200", "300", "400", "500", "600", "700", "800", "900"],
+      "syntax": "normal | bold | bolder | lighter | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900",
+      "status": "standard"
+    },
+    {
+      "name": "font-style",
+      "keywords": ["normal", "italic", "oblique"],
+      "syntax": "normal | italic | oblique",
+      "status": "standard"
+    },
+    {
+      "name": "text-decoration-line",
+      "keywords": ["none", "underline", "overline", "line-through"],
+      "syntax": "none | underline | overline | line-through",
+      "status": "standard"
+    },
+    {
+      "name": "visibility",
+      "keywords": ["visible", "hidden", "collapse"],
+      "syntax": "visible | hidden | collapse",
+      "status": "standard"
+    },
+    {
+      "name": "overflow",
+      "keywords": ["visible", "hidden", "scroll", "auto"],
+      "syntax": "visible | hidden | scroll | auto",
+      "status": "standard"
+    },
+    {
+      "name": "cursor",
+      "keywords": ["auto", "default", "pointer", "text", "move", "wait", "help", "not-allowed", "grab", "grabbing"],
+      "syntax": "auto | default | pointer | text | move | wait | help | not-allowed | grab | grabbing | ...",
+      "status": "standard"
+    }
+  ]
+}
