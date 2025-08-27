@@ -63,3 +63,22 @@ This package currently includes type-safe support for properties with finite key
 ## Extending
 
 To add more properties, edit `./cmd/cssgen/spec/spec.json` and regenerate.
+
+### MDN Validation
+
+This package includes validation against the official Mozilla Developer Network (MDN) CSS specifications to ensure accuracy and completeness.
+
+To validate the current spec against MDN data:
+
+```bash
+# Clone MDN data (first time only)
+git clone https://github.com/mdn/data.git /tmp/mdn-data
+
+# Validate current spec
+go run ./cmd/mdnvalidate -mdn /tmp/mdn-data -spec ./cmd/cssgen/spec/spec.json -v
+
+# Update spec with MDN data
+go run ./cmd/mdnvalidate -mdn /tmp/mdn-data -spec ./cmd/cssgen/spec/spec.json -update
+```
+
+See `cmd/mdnvalidate/README.md` for detailed documentation on MDN validation.
