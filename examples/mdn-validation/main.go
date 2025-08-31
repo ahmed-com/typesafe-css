@@ -70,7 +70,7 @@ func main() {
 	// Typography with enhanced text alignment
 	typography := css.RuleSet(".text-content",
 		cssgen.SetTextAlign(cssgen.TextAlignValMatchParent),
-		cssgen.SetFontWeight(cssgen.FontWeightVal400),
+		cssgen.SetFontWeight(cssgen.FontWeightValNormal),
 		css.Set("line-height", css.Raw("1.6")),
 	)
 
