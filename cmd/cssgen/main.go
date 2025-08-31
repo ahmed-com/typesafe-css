@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -26,6 +27,27 @@ type PropertySpec struct {
 	Keywords []string `json:"keywords"` // ["repeat", "no-repeat", ...] (may be empty)
 	Syntax   string   `json:"syntax"`   // e.g., "<color> | <image> | ...", used later for richer types
 	Status   string   `json:"status"`   // "standard" | "experimental" | "deprecated"
+}
+
+// MDNProperty represents a CSS property from MDN data.
+type MDNProperty struct {
+	Syntax        string      `json:"syntax"`
+	Status        string      `json:"status"`
+	Inherited     interface{} `json:"inherited"`     // Can be bool or string
+	Groups        []string    `json:"groups"`
+	Initial       interface{} `json:"initial"`       // Can be string or array
+	MDNURL        string      `json:"mdn_url"`
+	Media         interface{} `json:"media"`         // Can be string or array
+	AnimationType interface{} `json:"animationType"` // Can be string or array
+	Percentages   interface{} `json:"percentages"`   // Can be string or array
+	AppliesToo    interface{} `json:"appliesto"`     // Can be string or array
+	Computed      interface{} `json:"computed"`      // Can be string or array
+	Order         interface{} `json:"order"`         // Can be string or array
+}
+
+// MDNSyntax represents a syntax definition from MDN data.
+type MDNSyntax struct {
+	Syntax string `json:"syntax"`
 }
 
 func main() {
@@ -83,6 +105,12 @@ func loadSpec(path string) (Spec, error) {
 	}
 
 	if info.IsDir() {
+		// Check if this is an MDN data directory (contains properties.json)
+		mdnPropertiesPath := filepath.Join(path, "properties.json")
+		if _, err := os.Stat(mdnPropertiesPath); err == nil {
+			return loadSpecFromMDN(path)
+		}
+
 		// Look for spec.json in directory
 		specPath := filepath.Join(path, "spec.json")
 		return loadSpecFromFile(specPath)
@@ -106,6 +134,144 @@ func loadSpecFromFile(filePath string) (Spec, error) {
 	}
 
 	return spec, nil
+}
+
+// loadSpecFromMDN loads the CSS specification from MDN data directory.
+func loadSpecFromMDN(mdnPath string) (Spec, error) {
+	// Load properties
+	propertiesFile := filepath.Join(mdnPath, "properties.json")
+	propertiesData, err := os.ReadFile(propertiesFile)
+	if err != nil {
+		return Spec{}, fmt.Errorf("cannot read properties.json: %w", err)
+	}
+
+	var mdnProperties map[string]MDNProperty
+	if err := json.Unmarshal(propertiesData, &mdnProperties); err != nil {
+		return Spec{}, fmt.Errorf("cannot parse properties.json: %w", err)
+	}
+
+	// Load syntaxes (optional)
+	var mdnSyntaxes map[string]MDNSyntax
+	syntaxesFile := filepath.Join(mdnPath, "syntaxes.json")
+	if syntaxesData, err := os.ReadFile(syntaxesFile); err == nil {
+		if err := json.Unmarshal(syntaxesData, &mdnSyntaxes); err != nil {
+			fmt.Printf("Warning: cannot parse syntaxes.json: %v\n", err)
+		}
+	}
+
+	// Convert MDN format to our Spec format
+	spec := Spec{
+		Version:    "mdn-latest",
+		Properties: make([]PropertySpec, 0, len(mdnProperties)),
+	}
+
+	for propName, mdnProp := range mdnProperties {
+		// Skip properties that start with -- or vendor prefixes for now
+		if strings.HasPrefix(propName, "--") || strings.HasPrefix(propName, "-") {
+			continue
+		}
+
+		keywords := extractKeywordsFromSyntax(mdnProp.Syntax, mdnSyntaxes)
+		
+		propSpec := PropertySpec{
+			Name:     propName,
+			Keywords: keywords,
+			Syntax:   mdnProp.Syntax,
+			Status:   mdnProp.Status,
+		}
+
+		spec.Properties = append(spec.Properties, propSpec)
+	}
+
+	// Sort properties by name for consistent output
+	sort.Slice(spec.Properties, func(i, j int) bool {
+		return spec.Properties[i].Name < spec.Properties[j].Name
+	})
+
+	return spec, nil
+}
+
+// extractKeywordsFromSyntax extracts concrete keyword values from MDN syntax.
+func extractKeywordsFromSyntax(syntax string, syntaxes map[string]MDNSyntax) []string {
+	var keywords []string
+	seen := make(map[string]bool)
+
+	// First, expand any type references (e.g., <display-box> -> "contents | none")
+	expanded := expandSyntaxTypes(syntax, syntaxes)
+
+	// Extract keywords using regex for simple alternatives (word | word | word)
+	// Include numbers for font-weight and similar properties
+	re := regexp.MustCompile(`\b([a-z-]+|\d+)\b`)
+	matches := re.FindAllString(expanded, -1)
+
+	for _, match := range matches {
+		// Filter out obvious non-keywords
+		if isKeyword(match) && !seen[match] {
+			keywords = append(keywords, match)
+			seen[match] = true
+		}
+	}
+
+	sort.Strings(keywords)
+	return keywords
+}
+
+// expandSyntaxTypes replaces type references with their syntax definitions.
+func expandSyntaxTypes(syntax string, syntaxes map[string]MDNSyntax) string {
+	if syntaxes == nil {
+		return syntax
+	}
+
+	// Replace <type-name> with the actual syntax from syntaxes.json
+	re := regexp.MustCompile(`<([^>]+)>`)
+	
+	expanded := re.ReplaceAllStringFunc(syntax, func(match string) string {
+		typeName := strings.Trim(match, "<>")
+		if syntaxDef, exists := syntaxes[typeName]; exists {
+			return syntaxDef.Syntax
+		}
+		return match
+	})
+
+	return expanded
+}
+
+// isKeyword determines if a string looks like a CSS keyword value.
+func isKeyword(s string) bool {
+	// Skip common syntax elements that aren't keywords
+	skip := []string{
+		"and", "or", "not", "where", "is", "has", "any", "all",
+		"inherit", "initial", "unset", "revert",
+		"length", "percentage", "number", "integer", "string",
+		"color", "image", "url", "calc", "var", "env", "attr",
+		"global", "values", "keyword", "value", "property",
+	}
+
+	s = strings.ToLower(s)
+	
+	// Skip if too short (but allow single digits for font-weight)
+	if len(s) < 2 && !regexp.MustCompile(`^\d+$`).MatchString(s) {
+		return false
+	}
+
+	// Skip if contains characters that suggest it's not a simple keyword
+	if strings.ContainsAny(s, "()[]{}#%<>") {
+		return false
+	}
+
+	// Skip common non-keyword terms
+	for _, term := range skip {
+		if s == term {
+			return false
+		}
+	}
+
+	// Accept numeric values (for font-weight, z-index, etc.)
+	if regexp.MustCompile(`^\d+$`).MatchString(s) {
+		return true
+	}
+
+	return true
 }
 
 // normalize processes the spec to ensure consistency.
