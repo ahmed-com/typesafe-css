@@ -110,11 +110,38 @@ This project follows a comprehensive [roadmap](roadmap.md) for building a comple
 - ✅ Shorthand helpers for common patterns
 - ✅ Template integration
 - ✅ Comprehensive tests
+- ✅ **Tailwind CSS utilities package** - Utility-first CSS with type safety
 
 ### Next Steps
 - Code generation pipeline for comprehensive CSS property coverage
 - Advanced validation and linting capabilities
 - Performance optimizations
+
+## Tailwind CSS Utilities
+
+The project now includes a comprehensive Tailwind CSS-style utilities package for utility-first CSS authoring:
+
+```go
+import "github.com/ahmed-com/typesafe-css/tailwind"
+
+var stylesheet css.Stylesheet
+stylesheet.Add(
+    tailwind.Bg("blue-500"),        // .bg-blue-500 { background-color: #3b82f6; }
+    tailwind.Text("white"),         // .text-white { color: #ffffff; }
+    tailwind.P("4"),                // .p-4 { padding: 1rem; }
+    tailwind.DisplayFlex(),         // .flex { display: flex; }
+    tailwind.JustifyCenterClass(),  // .justify-center { justify-content: center; }
+)
+```
+
+Features:
+- **Utility-first approach** - Compose styles from small, reusable utilities
+- **Theme system** - Configurable colors, spacing, typography, and breakpoints
+- **Automatic deduplication** - Utilities are generated only once
+- **Custom themes** - Override defaults or add your own design tokens
+- **140+ pre-built utilities** - Common classes ready to use
+
+See [tailwind/README.md](tailwind/README.md) for complete documentation.
 
 ## Installation
 
