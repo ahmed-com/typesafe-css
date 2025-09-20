@@ -67,11 +67,6 @@ func Text(colorKey string) css.Rule {
 	return TextColor(defaultManager, colorKey)
 }
 
-// Bg creates a background color utility using the default manager.
-func Bg(colorKey string) css.Rule {
-	return BackgroundColor(defaultManager, colorKey)
-}
-
 // Border creates a border color utility using the default manager.
 func Border(colorKey string) css.Rule {
 	return BorderColor(defaultManager, colorKey)

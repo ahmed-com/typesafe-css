@@ -19,30 +19,30 @@ func main() {
 	// Add various utility classes to demonstrate functionality
 	stylesheet.Add(
 		// Layout utilities
-		tailwind.DisplayFlex(),
-		tailwind.DisplayBlock(),
-		tailwind.DisplayHidden(),
-		tailwind.JustifyCenterClass(),
-		tailwind.ItemsCenterClass(),
-		tailwind.FlexColClass(),
+		tailwind.Flex(),
+		tailwind.Block(),
+		tailwind.Hidden(),
+		tailwind.JustifyCenter(),
+		tailwind.ItemsCenter(),
+		tailwind.FlexCol(),
 
 		// Spacing utilities - demonstrate deduplication
-		tailwind.P("4"),     // padding: 1rem
-		tailwind.Px("6"),    // padding-left/right: 1.5rem
-		tailwind.Py("2"),    // padding-top/bottom: 0.5rem
-		tailwind.M("8"),     // margin: 2rem
-		tailwind.Mx("auto"), // margin-left/right: auto
-		tailwind.W("64"),    // width: 16rem
-		tailwind.W("full"),  // width: 100%
-		tailwind.H("32"),    // height: 8rem
-		tailwind.H("screen"), // height: 100vh
+		tailwind.P4(),     // padding: 1rem
+		tailwind.Px6(),    // padding-left/right: 1.5rem
+		tailwind.Py2(),    // padding-top/bottom: 0.5rem
+		tailwind.M8(),     // margin: 2rem
+		tailwind.MxAuto(), // margin-left/right: auto
+		tailwind.W64(),    // width: 16rem
+		tailwind.WFull(),  // width: 100%
+		tailwind.H32(),    // height: 8rem
+		tailwind.HScreen(), // height: 100vh
 
 		// Color utilities
-		tailwind.Bg("blue-500"),    // background-color: #3b82f6
-		tailwind.Bg("gray-100"),    // background-color: #f3f4f6
-		tailwind.Text("white"),     // color: #ffffff
-		tailwind.Text("gray-800"),  // color: #1f2937
-		tailwind.Border("gray-300"), // border-color: #d1d5db
+		tailwind.BgBlue500(),    // background-color: #3b82f6
+		tailwind.BgGray100(),    // background-color: #f3f4f6
+		tailwind.TextWhite(),    // color: #ffffff
+		tailwind.TextGray800(),  // color: #1f2937
+		tailwind.Bg("#bada55"),  // arbitrary color
 
 		// Typography utilities
 		tailwind.TextLg(),          // font-size: 1.125rem
@@ -52,8 +52,8 @@ func main() {
 		tailwind.TextSm(),          // font-size: 0.875rem
 
 		// Position utilities
-		tailwind.RelativeClass(),   // position: relative
-		tailwind.AbsoluteClass(),   // position: absolute
+		tailwind.Relative(),   // position: relative
+		tailwind.Absolute(),   // position: absolute
 	)
 
 	// Print compact CSS
@@ -112,9 +112,9 @@ func main() {
 	manager := tailwind.GetDefaultManager()
 	
 	// Call the same utility multiple times
-	rule1 := tailwind.P("4")
-	rule2 := tailwind.P("4") 
-	rule3 := tailwind.P("4")
+	rule1 := tailwind.P4()
+	rule2 := tailwind.P4() 
+	rule3 := tailwind.P4()
 	
 	// These should all be the same object due to deduplication
 	fmt.Printf("Rule 1 address: %p\n", &rule1)
@@ -129,24 +129,24 @@ func main() {
 	// Create a practical example with a card component
 	var cardStylesheet css.Stylesheet
 	cardStylesheet.Add(
-		tailwind.Bg("white"),
-		tailwind.Text("gray-900"),
-		tailwind.P("6"),
-		tailwind.M("4"),
-		tailwind.W("96"),
-		tailwind.DisplayFlex(),
-		tailwind.FlexColClass(),
-		tailwind.JustifyBetweenClass(),
-		tailwind.RelativeClass(),
+		tailwind.BgWhite(),
+		tailwind.TextGray900(),
+		tailwind.P6(),
+		tailwind.M4(),
+		tailwind.W96(),
+		tailwind.Flex(),
+		tailwind.FlexCol(),
+		tailwind.JustifyBetween(),
+		tailwind.Relative(),
 		css.RuleSet(".card",
 			css.Set(css.BorderRadius, css.Px(8)),
 			css.Set("box-shadow", css.Raw("0 4px 6px -1px rgba(0, 0, 0, 0.1)")),
 		),
 		// Button utilities
-		tailwind.Bg("blue-600"),
-		tailwind.Text("white"),
-		tailwind.Px("4"),
-		tailwind.Py("2"),
+		tailwind.BgBlue600(),
+		tailwind.TextWhite(),
+		tailwind.Px4(),
+		tailwind.Py2(),
 		tailwind.FontMedium(),
 		tailwind.TextSm(),
 		css.RuleSet(".btn",

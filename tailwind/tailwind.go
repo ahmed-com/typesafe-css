@@ -15,11 +15,12 @@
 //		
 //		// Add utility classes to stylesheet
 //		stylesheet.Add(
-//			tailwind.Bg("blue-500"),     // .bg-blue-500 { background-color: #3b82f6; }
-//			tailwind.Text("white"),      // .text-white { color: #ffffff; }
-//			tailwind.P("4"),             // .p-4 { padding: 1rem; }
-//			tailwind.DisplayFlex(),      // .flex { display: flex; }
-//			tailwind.JustifyCenterClass(), // .justify-center { justify-content: center; }
+//			tailwind.BgBlue500(),        // .bg-blue-500 { background-color: #3b82f6; }
+//			tailwind.TextWhite(),        // .text-white { color: #ffffff; }
+//			tailwind.P4(),               // .p-4 { padding: 1rem; }
+//			tailwind.Flex(),             // .flex { display: flex; }
+//			tailwind.JustifyCenter(),    // .justify-center { justify-content: center; }
+//			tailwind.Bg("#bada55"),      // .bg-[#bada55] { background-color: #bada55; }
 //		)
 //		
 //		fmt.Println(stylesheet.String())
@@ -27,13 +28,17 @@
 //
 // The package provides several categories of utilities:
 //
-// Colors: Text, Bg, Border functions for color utilities
-// Spacing: P, Px, Py, M, Mx, My, W, H functions for spacing utilities
-// Layout: DisplayFlex, DisplayBlock, JustifyCenter, etc. for layout utilities
-// Typography: TextSm, FontBold, TextCenter, etc. for typography utilities
+// Colors: BgBlue500, TextWhite, etc. for specific color utilities
+// Spacing: P4, Px2, Py4, M8, etc. for specific spacing utilities
+// Layout: Flex, Block, JustifyCenter, etc. for layout utilities
+// Typography: TextLg, FontBold, TextCenter, etc. for typography utilities
 //
 // All utilities support deduplication - calling the same utility function multiple
 // times will only generate the CSS rule once.
+//
+// For arbitrary values, use the Bg(), Text(), P(), etc. functions with custom values:
+//   tailwind.Bg("#custom")     - Custom background color
+//   tailwind.Text("rgb(255,0,0)") - Custom text color
 package tailwind
 
 import (
@@ -47,35 +52,35 @@ func GenerateUtilityStylesheet() css.Stylesheet {
 	
 	// Add common display utilities
 	stylesheet.Add(
-		DisplayBlock(),
-		DisplayInline(),
-		DisplayInlineBlock(),
-		DisplayFlex(),
-		DisplayGrid(),
-		DisplayHidden(),
+		Block(),
+		Inline(),
+		InlineBlock(),
+		Flex(),
+		Grid(),
+		Hidden(),
 	)
 	
 	// Add common flexbox utilities
 	stylesheet.Add(
-		FlexRowClass(),
-		FlexColClass(),
-		JustifyStartClass(),
-		JustifyEndClass(),
-		JustifyCenterClass(),
-		JustifyBetweenClass(),
-		ItemsStartClass(),
-		ItemsEndClass(),
-		ItemsCenterClass(),
-		ItemsStretchClass(),
+		FlexRow(),
+		FlexCol(),
+		JustifyStart(),
+		JustifyEnd(),
+		JustifyCenter(),
+		JustifyBetween(),
+		ItemsStart(),
+		ItemsEnd(),
+		ItemsCenter(),
+		ItemsStretch(),
 	)
 	
 	// Add common position utilities
 	stylesheet.Add(
-		StaticClass(),
-		RelativeClass(),
-		AbsoluteClass(),
-		FixedClass(),
-		StickyClass(),
+		Static(),
+		Relative(),
+		Absolute(),
+		Fixed(),
+		Sticky(),
 	)
 	
 	// Add common text size utilities
@@ -107,35 +112,26 @@ func GenerateUtilityStylesheet() css.Stylesheet {
 	)
 	
 	// Add some common spacing utilities
-	spacingSizes := []string{"0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24"}
-	for _, size := range spacingSizes {
-		stylesheet.Add(
-			P(size),
-			Px(size),
-			Py(size),
-			M(size),
-			Mx(size),
-			My(size),
-		)
-	}
+	stylesheet.Add(
+		P0(), P1(), P2(), P3(), P4(), P5(), P6(), P8(), P10(), P12(), P16(), P20(), P24(),
+		Px0(), Px1(), Px2(), Px3(), Px4(), Px5(), Px6(), Px8(), Px10(), Px12(), Px16(), Px20(), Px24(),
+		Py0(), Py1(), Py2(), Py3(), Py4(), Py5(), Py6(), Py8(), Py10(), Py12(), Py16(), Py20(), Py24(),
+		M0(), M1(), M2(), M3(), M4(), M5(), M6(), M8(), M10(), M12(), M16(), M20(), M24(),
+		Mx0(), Mx1(), Mx2(), Mx3(), Mx4(), Mx5(), Mx6(), Mx8(), Mx10(), Mx12(), Mx16(), Mx20(), Mx24(), MxAuto(),
+		My0(), My1(), My2(), My3(), My4(), My5(), My6(), My8(), My10(), My12(), My16(), My20(), My24(),
+	)
 	
 	// Add some common color utilities (neutral colors)
-	colorKeys := []string{"black", "white", "gray-100", "gray-200", "gray-300", "gray-500", "gray-700", "gray-900"}
-	for _, color := range colorKeys {
-		stylesheet.Add(
-			Text(color),
-			Bg(color),
-		)
-	}
+	stylesheet.Add(
+		TextBlack(), TextWhite(), TextGray100(), TextGray200(), TextGray300(), TextGray500(), TextGray700(), TextGray900(),
+		BgBlack(), BgWhite(), BgGray100(), BgGray200(), BgGray300(), BgGray500(), BgGray700(), BgGray900(),
+	)
 	
 	// Add some common primary/accent colors
-	primaryColors := []string{"blue-500", "blue-600", "blue-700", "red-500", "green-500"}
-	for _, color := range primaryColors {
-		stylesheet.Add(
-			Text(color),
-			Bg(color),
-		)
-	}
+	stylesheet.Add(
+		TextBlue500(), TextBlue600(), TextBlue700(), TextRed500(), TextGreen500(),
+		BgBlue500(), BgBlue600(), BgBlue700(), BgRed500(), BgGreen500(),
+	)
 	
 	return stylesheet
 }

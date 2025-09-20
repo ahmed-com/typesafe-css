@@ -119,23 +119,21 @@ func TestSpacingUtilities(t *testing.T) {
 }
 
 func TestLayoutUtilities(t *testing.T) {
-	manager := NewUtilityManager(DefaultTheme())
-	
-	// Test display utilities
-	flexRule := Flex(manager)
+	// Test new direct API
+	flexRule := Flex()
 	expected := ".flex{display:flex}"
 	if flexRule.String() != expected {
 		t.Errorf("Expected %s, got %s", expected, flexRule.String())
 	}
 	
-	blockRule := Block(manager)
+	blockRule := Block()
 	expected = ".block{display:block}"
 	if blockRule.String() != expected {
 		t.Errorf("Expected %s, got %s", expected, blockRule.String())
 	}
 	
 	// Test flexbox utilities
-	justifyCenterRule := JustifyCenter(manager)
+	justifyCenterRule := JustifyCenter()
 	expected = ".justify-center{justify-content:center}"
 	if justifyCenterRule.String() != expected {
 		t.Errorf("Expected %s, got %s", expected, justifyCenterRule.String())
@@ -168,20 +166,26 @@ func TestTypographyUtilities(t *testing.T) {
 }
 
 func TestConvenienceFunctions(t *testing.T) {
-	// Test that convenience functions work and generate expected CSS
-	bgRule := Bg("blue-500")
+	// Test that new direct API functions work and generate expected CSS
+	bgRule := BgBlue500()
 	if !strings.Contains(bgRule.String(), "background-color:#3b82f6") {
 		t.Errorf("Expected bg-blue-500 to contain background-color:#3b82f6, got %s", bgRule.String())
 	}
 	
-	textRule := Text("white")
+	textRule := TextWhite()
 	if !strings.Contains(textRule.String(), "color:#ffffff") {
 		t.Errorf("Expected text-white to contain color:#ffffff, got %s", textRule.String())
 	}
 	
-	pRule := P("4")
+	pRule := P4()
 	if !strings.Contains(pRule.String(), "padding:1rem") {
 		t.Errorf("Expected p-4 to contain padding:1rem, got %s", pRule.String())
+	}
+
+	// Test arbitrary value support
+	customBgRule := Bg("#bada55")
+	if !strings.Contains(customBgRule.String(), "background-color:#bada55") {
+		t.Errorf("Expected custom bg to contain background-color:#bada55, got %s", customBgRule.String())
 	}
 }
 
