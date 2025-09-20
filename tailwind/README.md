@@ -51,35 +51,50 @@ func main() {
 - `M(size)`, `Mx(size)`, `My(size)` - Margin utilities  
 - `W(size)`, `H(size)` - Width and height utilities
 
-### Colors
-- `Bg(color)` - Background color utilities
+### Colors (Complete Tailwind Palette)
+- `Bg(color)` - Background color utilities for all 247 Tailwind colors
 - `Text(color)` - Text color utilities
 - `Border(color)` - Border color utilities
+- **Color families**: slate, gray, zinc, neutral, stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose
+- **Special colors**: inherit, current, transparent, black, white
 
 ### Typography
 - `TextXs()`, `TextSm()`, `TextBase()`, `TextLg()`, `TextXl()` - Font sizes
-- `FontThin()`, `FontNormal()`, `FontBold()` - Font weights
+- `FontThin()`, `FontNormal()`, `FontBold()` - Font weights (9 weights available)
 - `TextLeft()`, `TextCenter()`, `TextRight()` - Text alignment
+- Line height utilities with 14 different values
 
-### Position
+### Position & Layout
 - `StaticClass()`, `RelativeClass()`, `AbsoluteClass()`, `FixedClass()`
+- `Z10()`, `Z50()`, `ZAuto()` - Z-index utilities
+
+### Visual Effects
+- **Border Radius**: `RoundedSm()`, `RoundedLg()`, `RoundedFull()` - 9 radius values
+- **Box Shadows**: `ShadowSm()`, `ShadowLg()`, `Shadow2xl()` - 8 shadow presets
+- **Opacity**: `Opacity0()` through `Opacity100()` - 21 opacity levels
+- **Filters**: `BlurClass()`, `BrightnessClass()`, `GrayscaleClass()`, `ContrastClass()`, etc.
 
 ## Theme Configuration
 
 ### Default Theme
 
-The package includes a comprehensive Tailwind-inspired default theme:
+The package includes a comprehensive Tailwind CSS configuration with:
 
 ```go
 theme := tailwind.DefaultTheme()
-// Includes colors: black, white, gray-50 through gray-950, blue-50 through blue-950, etc.
-// Includes spacing: 0, px, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, etc.
-// Includes font sizes: xs, sm, base, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, 8xl, 9xl
+// 247 colors: All Tailwind color families with full intensity ranges
+// 35 spacing values: 0, px, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, etc.
+// 13 font sizes: xs, sm, base, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, 8xl, 9xl
+// 9 border radius values: none, sm, md, lg, xl, 2xl, 3xl, full
+// 8 box shadow presets: sm, md, lg, xl, 2xl, inner, none
+// 21 opacity levels: 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100
+// 9 font weights: thin, extralight, light, normal, medium, semibold, bold, extrabold, black
+// Plus many more configuration categories matching Tailwind CSS defaults
 ```
 
 ### Custom Themes
 
-Create custom themes by overriding default values:
+Create custom themes by overriding default values. Now supports all Tailwind configuration categories:
 
 ```go
 customTheme := tailwind.CustomTheme(&tailwind.Theme{
@@ -93,14 +108,90 @@ customTheme := tailwind.CustomTheme(&tailwind.Theme{
         "xl":  css.Rem(5),      // 80px
         "2xl": css.Rem(6),      // 96px
     },
+    BorderRadius: map[string]css.Length{
+        "huge": css.Rem(3),     // 48px
+    },
+    BoxShadow: map[string]string{
+        "glow": "0 0 20px rgba(99, 102, 241, 0.5)",
+    },
+    Opacity: map[string]string{
+        "15": "0.15",
+    },
+    FontWeight: map[string]string{
+        "super": "950",
+    },
 })
 
 // Use with a custom manager
 manager := tailwind.WithCustomTheme(customTheme)
 bgRule := tailwind.BackgroundColor(manager, "brand")  // .bg-brand { background-color: #6366f1; }
+radiusRule := tailwind.BorderRadius(manager, "huge")  // .rounded-huge { border-radius: 3rem; }
 
 // Or set as the new default theme
 tailwind.SetDefaultTheme(customTheme)
+```
+
+## Enhanced Visual Effects
+
+The expanded configuration includes comprehensive visual effect utilities:
+
+```go
+// Border radius utilities
+stylesheet.Add(
+    tailwind.RoundedSm(),     // border-radius: 0.125rem
+    tailwind.RoundedLg(),     // border-radius: 0.5rem  
+    tailwind.RoundedFull(),   // border-radius: 9999px
+    tailwind.Rounded("xl"),   // border-radius: 0.75rem
+)
+
+// Box shadow utilities  
+stylesheet.Add(
+    tailwind.ShadowSm(),      // subtle shadow
+    tailwind.ShadowLg(),      // larger shadow
+    tailwind.Shadow2xl(),     // very large shadow
+    tailwind.ShadowInner(),   // inset shadow
+)
+
+// Opacity utilities
+stylesheet.Add(
+    tailwind.Opacity25(),     // opacity: 0.25
+    tailwind.Opacity50(),     // opacity: 0.5
+    tailwind.Opacity75(),     // opacity: 0.75
+)
+
+// Z-index utilities
+stylesheet.Add(
+    tailwind.Z10(),           // z-index: 10
+    tailwind.Z50(),           // z-index: 50
+    tailwind.ZAuto(),         // z-index: auto
+)
+
+// Filter effects
+stylesheet.Add(
+    tailwind.BlurClass("sm"),       // filter: blur(4px)
+    tailwind.BrightnessClass("110"), // filter: brightness(1.1)
+    tailwind.GrayscaleClass(""),     // filter: grayscale(100%)
+    tailwind.ContrastClass("125"),   // filter: contrast(1.25)
+)
+```
+
+## Complete Color Palette
+
+Now supports all 247 Tailwind CSS colors:
+
+```go
+// Use any Tailwind color
+stylesheet.Add(
+    tailwind.BgSlate500(),    // All slate colors
+    tailwind.BgIndigo500(),   // All indigo colors  
+    tailwind.BgEmerald500(),  // All emerald colors
+    tailwind.BgRose500(),     // All rose colors
+    
+    // Or use the generic function
+    tailwind.Bg("violet-400"),
+    tailwind.Bg("amber-200"),
+    tailwind.Text("cyan-600"),
+)
 ```
 
 ## Utility Management & Deduplication

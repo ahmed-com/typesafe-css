@@ -54,6 +54,36 @@ func main() {
 		// Position utilities
 		tailwind.Relative(),   // position: relative
 		tailwind.Absolute(),   // position: absolute
+		
+		// New enhanced utilities
+		// Border radius
+		tailwind.RoundedLg(),     // border-radius: 0.5rem
+		tailwind.RoundedFull(),   // border-radius: 9999px
+		tailwind.Rounded("md"),   // border-radius: 0.375rem
+		
+		// Box shadows
+		tailwind.ShadowLg(),      // box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+		tailwind.ShadowSm(),      // box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05)
+		tailwind.Shadow("xl"),    // box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)
+		
+		// Opacity
+		tailwind.Opacity75(),     // opacity: 0.75
+		tailwind.Opacity50(),     // opacity: 0.5
+		
+		// Z-index
+		tailwind.Z10(),           // z-index: 10
+		tailwind.Z50(),           // z-index: 50
+		
+		// Filter effects
+		tailwind.BlurClass("sm"),      // filter: blur(4px)
+		tailwind.BrightnessClass("110"), // filter: brightness(1.1)
+		tailwind.GrayscaleClass(""),     // filter: grayscale(100%)
+		
+		// Enhanced colors from full palette
+		tailwind.BgSlate500(),    // background-color: #64748b
+		tailwind.BgIndigo500(),   // background-color: #6366f1
+		tailwind.BgEmerald500(),  // background-color: #10b981
+		tailwind.Bg("rose-500"),  // background-color: #f43f5e (using generic function)
 	)
 
 	// Print compact CSS
@@ -77,6 +107,15 @@ func main() {
 			"xs": css.Rem(0.125), // 2px
 			"xl": css.Rem(5),     // 80px
 		},
+		BorderRadius: map[string]css.Length{
+			"huge": css.Rem(3), // 48px - very large border radius
+		},
+		BoxShadow: map[string]string{
+			"glow": "0 0 20px rgba(99, 102, 241, 0.5)", // Custom glow effect
+		},
+		Opacity: map[string]string{
+			"15": "0.15", // Custom opacity value
+		},
 	})
 
 	customManager := tailwind.WithCustomTheme(customTheme)
@@ -87,6 +126,10 @@ func main() {
 		tailwind.TextColor(customManager, "danger"),
 		tailwind.Padding(customManager, "xs"),
 		tailwind.Margin(customManager, "xl"),
+		// New enhanced utilities
+		tailwind.BorderRadius(customManager, "huge"),
+		tailwind.BoxShadow(customManager, "glow"),
+		tailwind.Opacity(customManager, "15"),
 	)
 
 	fmt.Println("Custom Theme Utilities:")
