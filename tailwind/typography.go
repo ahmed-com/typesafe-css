@@ -33,28 +33,34 @@ func FontWeight(manager *UtilityManager, weight string) css.Rule {
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var weightValue css.Value
 		
-		switch weight {
-		case "thin":
-			weightValue = css.Keyword("100")
-		case "extralight":
-			weightValue = css.Keyword("200")
-		case "light":
-			weightValue = css.Keyword("300")
-		case "normal":
-			weightValue = css.Keyword("400")
-		case "medium":
-			weightValue = css.Keyword("500")
-		case "semibold":
-			weightValue = css.Keyword("600")
-		case "bold":
-			weightValue = css.Keyword("700")
-		case "extrabold":
-			weightValue = css.Keyword("800")
-		case "black":
-			weightValue = css.Keyword("900")
-		default:
-			// Fallback to treating the weight as a direct value
-			weightValue = css.Raw(weight)
+		// Try to get from theme first
+		if fontWeight, exists := manager.Theme().FontWeight[weight]; exists {
+			weightValue = css.Keyword(fontWeight)
+		} else {
+			// Legacy fallback values
+			switch weight {
+			case "thin":
+				weightValue = css.Keyword("100")
+			case "extralight":
+				weightValue = css.Keyword("200")
+			case "light":
+				weightValue = css.Keyword("300")
+			case "normal":
+				weightValue = css.Keyword("400")
+			case "medium":
+				weightValue = css.Keyword("500")
+			case "semibold":
+				weightValue = css.Keyword("600")
+			case "bold":
+				weightValue = css.Keyword("700")
+			case "extrabold":
+				weightValue = css.Keyword("800")
+			case "black":
+				weightValue = css.Keyword("900")
+			default:
+				// Fallback to treating the weight as a direct value
+				weightValue = css.Raw(weight)
+			}
 		}
 		
 		return css.RuleSet(fmt.Sprintf(".%s", className),
@@ -106,26 +112,32 @@ func LineHeight(manager *UtilityManager, height string) css.Rule {
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var lineHeight css.Value
 		
-		switch height {
-		case "none":
-			lineHeight = css.Keyword("1")
-		case "tight":
-			lineHeight = css.Keyword("1.25")
-		case "snug":
-			lineHeight = css.Keyword("1.375")
-		case "normal":
-			lineHeight = css.Keyword("1.5")
-		case "relaxed":
-			lineHeight = css.Keyword("1.625")
-		case "loose":
-			lineHeight = css.Keyword("2")
-		default:
-			// Check if it's a numeric value from theme spacing
-			if spacing, exists := manager.Theme().Spacing[height]; exists {
-				lineHeight = spacing
-			} else {
-				// Fallback to treating as direct value
-				lineHeight = css.Raw(height)
+		// Try to get from theme first
+		if lineHeightValue, exists := manager.Theme().LineHeight[height]; exists {
+			lineHeight = css.Raw(lineHeightValue)
+		} else {
+			// Legacy fallback values
+			switch height {
+			case "none":
+				lineHeight = css.Keyword("1")
+			case "tight":
+				lineHeight = css.Keyword("1.25")
+			case "snug":
+				lineHeight = css.Keyword("1.375")
+			case "normal":
+				lineHeight = css.Keyword("1.5")
+			case "relaxed":
+				lineHeight = css.Keyword("1.625")
+			case "loose":
+				lineHeight = css.Keyword("2")
+			default:
+				// Check if it's a numeric value from theme spacing
+				if spacing, exists := manager.Theme().Spacing[height]; exists {
+					lineHeight = spacing
+				} else {
+					// Fallback to treating as direct value
+					lineHeight = css.Raw(height)
+				}
 			}
 		}
 		

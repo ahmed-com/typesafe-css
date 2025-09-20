@@ -56,6 +56,55 @@ func BgGreen800() css.Rule { return Bg("green-800") }
 func BgGreen900() css.Rule { return Bg("green-900") }
 func BgGreen950() css.Rule { return Bg("green-950") }
 
+// Additional popular color utilities
+func BgSlate50() css.Rule { return Bg("slate-50") }
+func BgSlate100() css.Rule { return Bg("slate-100") }
+func BgSlate200() css.Rule { return Bg("slate-200") }
+func BgSlate300() css.Rule { return Bg("slate-300") }
+func BgSlate400() css.Rule { return Bg("slate-400") }
+func BgSlate500() css.Rule { return Bg("slate-500") }
+func BgSlate600() css.Rule { return Bg("slate-600") }
+func BgSlate700() css.Rule { return Bg("slate-700") }
+func BgSlate800() css.Rule { return Bg("slate-800") }
+func BgSlate900() css.Rule { return Bg("slate-900") }
+func BgSlate950() css.Rule { return Bg("slate-950") }
+
+func BgIndigo50() css.Rule { return Bg("indigo-50") }
+func BgIndigo100() css.Rule { return Bg("indigo-100") }
+func BgIndigo200() css.Rule { return Bg("indigo-200") }
+func BgIndigo300() css.Rule { return Bg("indigo-300") }
+func BgIndigo400() css.Rule { return Bg("indigo-400") }
+func BgIndigo500() css.Rule { return Bg("indigo-500") }
+func BgIndigo600() css.Rule { return Bg("indigo-600") }
+func BgIndigo700() css.Rule { return Bg("indigo-700") }
+func BgIndigo800() css.Rule { return Bg("indigo-800") }
+func BgIndigo900() css.Rule { return Bg("indigo-900") }
+func BgIndigo950() css.Rule { return Bg("indigo-950") }
+
+func BgEmerald50() css.Rule { return Bg("emerald-50") }
+func BgEmerald100() css.Rule { return Bg("emerald-100") }
+func BgEmerald200() css.Rule { return Bg("emerald-200") }
+func BgEmerald300() css.Rule { return Bg("emerald-300") }
+func BgEmerald400() css.Rule { return Bg("emerald-400") }
+func BgEmerald500() css.Rule { return Bg("emerald-500") }
+func BgEmerald600() css.Rule { return Bg("emerald-600") }
+func BgEmerald700() css.Rule { return Bg("emerald-700") }
+func BgEmerald800() css.Rule { return Bg("emerald-800") }
+func BgEmerald900() css.Rule { return Bg("emerald-900") }
+func BgEmerald950() css.Rule { return Bg("emerald-950") }
+
+func BgRose50() css.Rule { return Bg("rose-50") }
+func BgRose100() css.Rule { return Bg("rose-100") }
+func BgRose200() css.Rule { return Bg("rose-200") }
+func BgRose300() css.Rule { return Bg("rose-300") }
+func BgRose400() css.Rule { return Bg("rose-400") }
+func BgRose500() css.Rule { return Bg("rose-500") }
+func BgRose600() css.Rule { return Bg("rose-600") }
+func BgRose700() css.Rule { return Bg("rose-700") }
+func BgRose800() css.Rule { return Bg("rose-800") }
+func BgRose900() css.Rule { return Bg("rose-900") }
+func BgRose950() css.Rule { return Bg("rose-950") }
+
 // Text color utilities
 func TextBlack() css.Rule { return Text("black") }
 func TextWhite() css.Rule { return Text("white") }
@@ -534,3 +583,58 @@ func Bg(color string) css.Rule {
 	// Use theme color
 	return BackgroundColor(defaultManager, color)
 }
+
+// ===== BORDER RADIUS UTILITIES =====
+
+// Common border radius utilities
+func RoundedNone() css.Rule { return Rounded("none") }
+func RoundedSm() css.Rule { return Rounded("sm") }
+func RoundedDefault() css.Rule { return Rounded("") }
+func RoundedMd() css.Rule { return Rounded("md") }
+func RoundedLg() css.Rule { return Rounded("lg") }
+func RoundedXl() css.Rule { return Rounded("xl") }
+func Rounded2xl() css.Rule { return Rounded("2xl") }
+func Rounded3xl() css.Rule { return Rounded("3xl") }
+func RoundedFull() css.Rule { return Rounded("full") }
+
+// ===== SHADOW UTILITIES =====
+
+// Common shadow utilities
+func ShadowSm() css.Rule { return Shadow("sm") }
+func ShadowDefault() css.Rule { return Shadow("") }
+func ShadowMd() css.Rule { return Shadow("md") }
+func ShadowLg() css.Rule { return Shadow("lg") }
+func ShadowXl() css.Rule { return Shadow("xl") }
+func Shadow2xl() css.Rule { return Shadow("2xl") }
+func ShadowInner() css.Rule { return Shadow("inner") }
+func ShadowNone() css.Rule { return Shadow("none") }
+
+// ===== OPACITY UTILITIES =====
+
+// Common opacity utilities
+func Opacity0() css.Rule { return OpacityClass("0") }
+func Opacity5() css.Rule { return OpacityClass("5") }
+func Opacity10() css.Rule { return OpacityClass("10") }
+func Opacity20() css.Rule { return OpacityClass("20") }
+func Opacity25() css.Rule { return OpacityClass("25") }
+func Opacity30() css.Rule { return OpacityClass("30") }
+func Opacity40() css.Rule { return OpacityClass("40") }
+func Opacity50() css.Rule { return OpacityClass("50") }
+func Opacity60() css.Rule { return OpacityClass("60") }
+func Opacity70() css.Rule { return OpacityClass("70") }
+func Opacity75() css.Rule { return OpacityClass("75") }
+func Opacity80() css.Rule { return OpacityClass("80") }
+func Opacity90() css.Rule { return OpacityClass("90") }
+func Opacity95() css.Rule { return OpacityClass("95") }
+func Opacity100() css.Rule { return OpacityClass("100") }
+
+// ===== Z-INDEX UTILITIES =====
+
+// Common z-index utilities
+func ZAuto() css.Rule { return Z("auto") }
+func Z0() css.Rule { return Z("0") }
+func Z10() css.Rule { return Z("10") }
+func Z20() css.Rule { return Z("20") }
+func Z30() css.Rule { return Z("30") }
+func Z40() css.Rule { return Z("40") }
+func Z50() css.Rule { return Z("50") }

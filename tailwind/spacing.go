@@ -235,3 +235,28 @@ func W(sizeKey string) css.Rule {
 func H(sizeKey string) css.Rule {
 	return Height(defaultManager, sizeKey)
 }
+
+// BorderRadius creates a border radius utility class.
+// Example: BorderRadius(manager, "lg") generates ".rounded-lg { border-radius: 0.5rem; }"
+func BorderRadius(manager *UtilityManager, radiusKey string) css.Rule {
+	className := ClassName("rounded", radiusKey)
+	
+	return manager.GetOrCreateRule(className, func() css.Rule {
+		var radius css.Value
+		if borderRadius, exists := manager.Theme().BorderRadius[radiusKey]; exists {
+			radius = borderRadius
+		} else {
+			// Fallback to treating the key as a direct length value
+			radius = css.Raw(radiusKey)
+		}
+		
+		return css.RuleSet(fmt.Sprintf(".%s", className),
+			css.Set("border-radius", radius),
+		)
+	})
+}
+
+// Rounded creates a border radius utility using the default manager.
+func Rounded(radiusKey string) css.Rule {
+	return BorderRadius(defaultManager, radiusKey)
+}
