@@ -38,5 +38,5 @@ Thumbs.db
 *.bak
 
 # Generated files (when we add codegen)
-/cssgen/*.go
-!cssgen/.gitkeep
+# /cssgen/*.go
+# !cssgen/.gitkeep
