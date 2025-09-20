@@ -153,9 +153,26 @@ See [tailwind/README.md](tailwind/README.md) for complete documentation.
 go get github.com/ahmed-com/typesafe-css
 ```
 
-## Examples
+## Documentation & Examples
 
-See the [examples](examples/) directory for complete working examples.
+### 📚 Comprehensive Guides
+
+- **[COOKBOOK.md](COOKBOOK.md)** - Practical recipes and use cases with step-by-step examples
+- **[docs/](docs/)** - Structured documentation covering all aspects of TypeSafe CSS
+  - [Getting Started Guide](docs/getting-started.md) - Quick 5-minute setup
+  - [Tailwind Utilities Guide](docs/tailwind-guide.md) - Complete utility-first CSS guide
+  - [Core API Guide](docs/core-api.md) - Deep dive into the core API
+
+### 💡 Working Examples
+
+- **[examples/basic/](examples/basic/)** - Core API fundamentals and template integration
+- **[examples/tailwind/](examples/tailwind/)** - Comprehensive Tailwind utilities demonstration
+- **[examples/generated/](examples/generated/)** - Type-safe generated properties and mixed API usage
+- **[examples/enhanced-tailwind/](examples/enhanced-tailwind/)** - Advanced typed configuration system
+- **[examples/mdn-validation/](examples/mdn-validation/)** - MDN-validated CSS properties in action
+- **[examples/typed-config/](examples/typed-config/)** - Structured theme configuration
+
+Each example includes detailed README files explaining the concepts and use cases.
 
 ## License
 
