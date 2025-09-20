@@ -30,9 +30,9 @@ Comprehensive guides for using TypeSafe CSS in your Go applications.
 ## Reference
 
 - [API Reference](api-reference.md) - Complete API documentation
-- [Migration Guide](migration.md) - Migrating from other CSS solutions
 - [Best Practices](best-practices.md) - Recommended patterns and practices
 - [Troubleshooting](troubleshooting.md) - Common issues and solutions
+- [Migration Guide](migration.md) - Migrating from other CSS solutions
 
 ## Examples
 
