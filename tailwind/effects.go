@@ -4,24 +4,25 @@ import (
 	"fmt"
 
 	"github.com/ahmed-com/typesafe-css/css"
+	"github.com/ahmed-com/typesafe-css/cssgen"
 )
 
 // Opacity creates an opacity utility class.
 // Example: Opacity(manager, "50") generates ".opacity-50 { opacity: 0.5; }"
 func Opacity(manager *UtilityManager, opacityKey string) css.Rule {
 	className := ClassName("opacity", opacityKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var opacity css.Value
-		if opacityValue, exists := manager.Theme().Opacity[opacityKey]; exists {
-			opacity = css.Raw(opacityValue)
+		if token, exists := manager.Theme().OpacityToken(opacityKey); exists {
+			opacity = token.Value()
 		} else {
 			// Fallback to treating the key as a direct value
 			opacity = css.Raw(opacityKey)
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("opacity", opacity),
+			css.Set(cssgen.Opacity, opacity),
 		)
 	})
 }
@@ -30,18 +31,18 @@ func Opacity(manager *UtilityManager, opacityKey string) css.Rule {
 // Example: BoxShadow(manager, "lg") generates ".shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }"
 func BoxShadow(manager *UtilityManager, shadowKey string) css.Rule {
 	className := ClassName("shadow", shadowKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var shadow css.Value
-		if shadowValue, exists := manager.Theme().BoxShadow[shadowKey]; exists {
-			shadow = css.Raw(shadowValue)
+		if token, exists := manager.Theme().BoxShadowToken(shadowKey); exists {
+			shadow = token.Value()
 		} else {
 			// Fallback to treating the key as a direct value
 			shadow = css.Raw(shadowKey)
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("box-shadow", shadow),
+			css.Set(cssgen.BoxShadow, shadow),
 		)
 	})
 }
@@ -50,22 +51,22 @@ func BoxShadow(manager *UtilityManager, shadowKey string) css.Rule {
 // Example: Blur(manager, "sm") generates ".blur-sm { filter: blur(4px); }"
 func Blur(manager *UtilityManager, blurKey string) css.Rule {
 	className := ClassName("blur", blurKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
-		var blur css.Value
-		if blurValue, exists := manager.Theme().Blur[blurKey]; exists {
-			if blurValue == "" {
-				blur = css.Raw("none")
-			} else {
-				blur = css.Raw(fmt.Sprintf("blur(%s)", blurValue))
+		if token, exists := manager.Theme().BlurToken(blurKey); exists {
+			value := token.Value().String()
+			if value == "" {
+				return css.RuleSet(fmt.Sprintf(".%s", className),
+					cssgen.SetFilter(cssgen.FilterValNone),
+				)
 			}
-		} else {
-			// Fallback to treating the key as a direct value
-			blur = css.Raw(fmt.Sprintf("blur(%s)", blurKey))
+			return css.RuleSet(fmt.Sprintf(".%s", className),
+				css.Set(cssgen.Filter, css.Raw(fmt.Sprintf("blur(%s)", value))),
+			)
 		}
-		
+		// Fallback to treating the key as a direct value
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("filter", blur),
+			css.Set(cssgen.Filter, css.Raw(fmt.Sprintf("blur(%s)", blurKey))),
 		)
 	})
 }
@@ -74,18 +75,18 @@ func Blur(manager *UtilityManager, blurKey string) css.Rule {
 // Example: Brightness(manager, "110") generates ".brightness-110 { filter: brightness(1.1); }"
 func Brightness(manager *UtilityManager, brightnessKey string) css.Rule {
 	className := ClassName("brightness", brightnessKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var brightness css.Value
-		if brightnessValue, exists := manager.Theme().Brightness[brightnessKey]; exists {
-			brightness = css.Raw(fmt.Sprintf("brightness(%s)", brightnessValue))
+		if token, exists := manager.Theme().BrightnessToken(brightnessKey); exists {
+			brightness = css.Raw(fmt.Sprintf("brightness(%s)", token.Value().String()))
 		} else {
 			// Fallback to treating the key as a direct value
 			brightness = css.Raw(fmt.Sprintf("brightness(%s)", brightnessKey))
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("filter", brightness),
+			css.Set(cssgen.Filter, brightness),
 		)
 	})
 }
@@ -94,18 +95,18 @@ func Brightness(manager *UtilityManager, brightnessKey string) css.Rule {
 // Example: Contrast(manager, "125") generates ".contrast-125 { filter: contrast(1.25); }"
 func Contrast(manager *UtilityManager, contrastKey string) css.Rule {
 	className := ClassName("contrast", contrastKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var contrast css.Value
-		if contrastValue, exists := manager.Theme().Contrast[contrastKey]; exists {
-			contrast = css.Raw(fmt.Sprintf("contrast(%s)", contrastValue))
+		if token, exists := manager.Theme().ContrastToken(contrastKey); exists {
+			contrast = css.Raw(fmt.Sprintf("contrast(%s)", token.Value().String()))
 		} else {
 			// Fallback to treating the key as a direct value
 			contrast = css.Raw(fmt.Sprintf("contrast(%s)", contrastKey))
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("filter", contrast),
+			css.Set(cssgen.Filter, contrast),
 		)
 	})
 }
@@ -114,18 +115,18 @@ func Contrast(manager *UtilityManager, contrastKey string) css.Rule {
 // Example: Grayscale(manager, "") generates ".grayscale { filter: grayscale(100%); }"
 func Grayscale(manager *UtilityManager, grayscaleKey string) css.Rule {
 	className := ClassName("grayscale", grayscaleKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var grayscale css.Value
-		if grayscaleValue, exists := manager.Theme().Grayscale[grayscaleKey]; exists {
-			grayscale = css.Raw(fmt.Sprintf("grayscale(%s)", grayscaleValue))
+		if token, exists := manager.Theme().GrayscaleToken(grayscaleKey); exists {
+			grayscale = css.Raw(fmt.Sprintf("grayscale(%s)", token.Value().String()))
 		} else {
 			// Fallback to treating the key as a direct value
 			grayscale = css.Raw(fmt.Sprintf("grayscale(%s)", grayscaleKey))
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("filter", grayscale),
+			css.Set(cssgen.Filter, grayscale),
 		)
 	})
 }
@@ -134,18 +135,18 @@ func Grayscale(manager *UtilityManager, grayscaleKey string) css.Rule {
 // Example: Invert(manager, "") generates ".invert { filter: invert(100%); }"
 func Invert(manager *UtilityManager, invertKey string) css.Rule {
 	className := ClassName("invert", invertKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var invert css.Value
-		if invertValue, exists := manager.Theme().Invert[invertKey]; exists {
-			invert = css.Raw(fmt.Sprintf("invert(%s)", invertValue))
+		if token, exists := manager.Theme().InvertToken(invertKey); exists {
+			invert = css.Raw(fmt.Sprintf("invert(%s)", token.Value().String()))
 		} else {
 			// Fallback to treating the key as a direct value
 			invert = css.Raw(fmt.Sprintf("invert(%s)", invertKey))
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("filter", invert),
+			css.Set(cssgen.Filter, invert),
 		)
 	})
 }
@@ -154,18 +155,18 @@ func Invert(manager *UtilityManager, invertKey string) css.Rule {
 // Example: Saturate(manager, "150") generates ".saturate-150 { filter: saturate(1.5); }"
 func Saturate(manager *UtilityManager, saturateKey string) css.Rule {
 	className := ClassName("saturate", saturateKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var saturate css.Value
-		if saturateValue, exists := manager.Theme().Saturate[saturateKey]; exists {
-			saturate = css.Raw(fmt.Sprintf("saturate(%s)", saturateValue))
+		if token, exists := manager.Theme().SaturateToken(saturateKey); exists {
+			saturate = css.Raw(fmt.Sprintf("saturate(%s)", token.Value().String()))
 		} else {
 			// Fallback to treating the key as a direct value
 			saturate = css.Raw(fmt.Sprintf("saturate(%s)", saturateKey))
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("filter", saturate),
+			css.Set(cssgen.Filter, saturate),
 		)
 	})
 }
@@ -174,18 +175,18 @@ func Saturate(manager *UtilityManager, saturateKey string) css.Rule {
 // Example: Sepia(manager, "") generates ".sepia { filter: sepia(100%); }"
 func Sepia(manager *UtilityManager, sepiaKey string) css.Rule {
 	className := ClassName("sepia", sepiaKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var sepia css.Value
-		if sepiaValue, exists := manager.Theme().Sepia[sepiaKey]; exists {
-			sepia = css.Raw(fmt.Sprintf("sepia(%s)", sepiaValue))
+		if token, exists := manager.Theme().SepiaToken(sepiaKey); exists {
+			sepia = css.Raw(fmt.Sprintf("sepia(%s)", token.Value().String()))
 		} else {
 			// Fallback to treating the key as a direct value
 			sepia = css.Raw(fmt.Sprintf("sepia(%s)", sepiaKey))
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("filter", sepia),
+			css.Set(cssgen.Filter, sepia),
 		)
 	})
 }
@@ -194,18 +195,22 @@ func Sepia(manager *UtilityManager, sepiaKey string) css.Rule {
 // Example: ZIndex(manager, "10") generates ".z-10 { z-index: 10; }"
 func ZIndex(manager *UtilityManager, zKey string) css.Rule {
 	className := ClassName("z", zKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
+		if zKey == "auto" {
+			return css.RuleSet(fmt.Sprintf(".%s", className),
+				cssgen.SetZIndex(cssgen.ZIndexValAuto),
+			)
+		}
 		var zIndex css.Value
-		if zValue, exists := manager.Theme().ZIndex[zKey]; exists {
-			zIndex = css.Raw(zValue)
+		if token, exists := manager.Theme().ZIndexToken(zKey); exists {
+			zIndex = token.Value()
 		} else {
 			// Fallback to treating the key as a direct value
 			zIndex = css.Raw(zKey)
 		}
-		
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("z-index", zIndex),
+			css.Set(cssgen.ZIndex, zIndex),
 		)
 	})
 }

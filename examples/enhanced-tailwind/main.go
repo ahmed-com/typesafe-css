@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	
-	"github.com/ahmed-com/typesafe-css/css"
+	"reflect"
+
 	"github.com/ahmed-com/typesafe-css/tailwind"
 )
 
@@ -11,99 +11,73 @@ func main() {
 	fmt.Println("=== Enhanced Tailwind CSS Configuration Test ===")
 	fmt.Println()
 
-	// Test complete color palette
-	fmt.Println("Colors supported:")
+	// Test typed configuration structure
 	theme := tailwind.DefaultTheme()
-	
-	colorSamples := []string{
-		"slate-500", "gray-500", "zinc-500", "neutral-500", "stone-500",
-		"red-500", "orange-500", "amber-500", "yellow-500", "lime-500",
-		"green-500", "emerald-500", "teal-500", "cyan-500", "sky-500",
-		"blue-500", "indigo-500", "violet-500", "purple-500", "fuchsia-500",
-		"pink-500", "rose-500",
-	}
-	
-	for _, color := range colorSamples {
-		if _, exists := theme.Colors[color]; exists {
-			fmt.Printf("  ✓ %s\n", color)
-		} else {
-			fmt.Printf("  ✗ %s\n", color)
-		}
-	}
-	
+	fmt.Println("✅ Typed Configuration Structure:")
+	fmt.Printf("  Theme has %d main configuration categories\n", reflect.TypeOf(theme).NumField())
+
+	// Sample some colors from the typed config
 	fmt.Println()
-	fmt.Println("New utility categories:")
-	
-	// Test new utilities
-	var stylesheet css.Stylesheet
-	
-	// Border radius utilities
-	stylesheet.Add(
-		tailwind.RoundedSm(),
-		tailwind.RoundedLg(),
-		tailwind.RoundedFull(),
-	)
-	
-	// Shadow utilities  
-	stylesheet.Add(
-		tailwind.ShadowSm(),
-		tailwind.ShadowLg(),
-		tailwind.Shadow2xl(),
-	)
-	
-	// Opacity utilities
-	stylesheet.Add(
-		tailwind.Opacity50(),
-		tailwind.Opacity75(),
-		tailwind.Opacity100(),
-	)
-	
-	// Z-index utilities
-	stylesheet.Add(
-		tailwind.Z10(),
-		tailwind.Z50(),
-		tailwind.ZAuto(),
-	)
-	
-	// Filter utilities
-	stylesheet.Add(
-		tailwind.BlurClass("sm"),
-		tailwind.BrightnessClass("110"),
-		tailwind.GrayscaleClass(""),
-	)
-	
-	// Custom border radius
-	stylesheet.Add(
-		tailwind.Rounded("md"),
-		tailwind.Rounded("xl"),
-	)
-	
-	// Custom shadow
-	stylesheet.Add(
-		tailwind.Shadow("md"),
-		tailwind.Shadow("none"),
-	)
-	
-	fmt.Println("Generated CSS:")
-	fmt.Println(stylesheet.String())
-	
+	fmt.Println("✅ Color Configuration Examples:")
+	fmt.Printf("  Red 500: %s\n", theme.Colors.Red500.String())
+	fmt.Printf("  Blue 500: %s\n", theme.Colors.Blue500.String())
+	fmt.Printf("  Green 500: %s\n", theme.Colors.Green500.String())
+	fmt.Printf("  Transparent: %s\n", theme.Colors.Transparent.String())
+
+	// Sample spacing values
 	fmt.Println()
-	fmt.Println("Theme configuration counts:")
-	fmt.Printf("  Colors: %d\n", len(theme.Colors))
-	fmt.Printf("  Spacing: %d\n", len(theme.Spacing))
-	fmt.Printf("  Font sizes: %d\n", len(theme.FontSizes))
-	fmt.Printf("  Border radius: %d\n", len(theme.BorderRadius))
-	fmt.Printf("  Border width: %d\n", len(theme.BorderWidth))
-	fmt.Printf("  Box shadow: %d\n", len(theme.BoxShadow))
-	fmt.Printf("  Opacity: %d\n", len(theme.Opacity))
-	fmt.Printf("  Font weight: %d\n", len(theme.FontWeight))
-	fmt.Printf("  Line height: %d\n", len(theme.LineHeight))
-	fmt.Printf("  Z-index: %d\n", len(theme.ZIndex))
-	fmt.Printf("  Blur: %d\n", len(theme.Blur))
-	fmt.Printf("  Brightness: %d\n", len(theme.Brightness))
-	fmt.Printf("  Contrast: %d\n", len(theme.Contrast))
-	fmt.Printf("  Grayscale: %d\n", len(theme.Grayscale))
-	fmt.Printf("  Invert: %d\n", len(theme.Invert))
-	fmt.Printf("  Saturate: %d\n", len(theme.Saturate))
-	fmt.Printf("  Sepia: %d\n", len(theme.Sepia))
+	fmt.Println("✅ Spacing Configuration Examples:")
+	fmt.Printf("  Size 4: %s\n", theme.Spacing.Size4.String())
+	fmt.Printf("  Size 8: %s\n", theme.Spacing.Size8.String())
+	fmt.Printf("  Size 16: %s\n", theme.Spacing.Size16.String())
+
+	// Sample font sizes - showing the Size component
+	fmt.Println()
+	fmt.Println("✅ Typography Configuration Examples:")
+	fmt.Printf("  Text SM size: %s\n", theme.FontSize.Sm.Size.String())
+	fmt.Printf("  Text LG size: %s\n", theme.FontSize.Lg.Size.String())
+	fmt.Printf("  Text XL size: %s\n", theme.FontSize.Xl.Size.String())
+
+	fmt.Println()
+	fmt.Println("✅ Generated CSS from Utility System:")
+
+	// Test utility generation with the typed config
+	generator := tailwind.NewUtilityGenerator(tailwind.DefaultConfig())
+	generatedStyles := generator.GenerateUtilities()
+
+	fmt.Printf("✅ Complete utility system generated %d total utility rules\n", len(generatedStyles.Items))
+
+	fmt.Println()
+	fmt.Println("✅ Type Safety Demonstration:")
+
+	// Show that we now have compile-time safety
+	config := tailwind.DefaultConfig()
+
+	// This is now type-safe - no string lookups!
+	redColor := config.Theme.Colors.Red500
+	mediumSpacing := config.Theme.Spacing.Size4
+
+	fmt.Printf("  Red color value: %v\n", redColor.ToCSSValue())
+	fmt.Printf("  Medium spacing value: %v\n", mediumSpacing.ToCSSValue())
+
+	// Show some generated utilities
+	fmt.Println()
+	fmt.Println("✅ Sample Generated Utility Rules:")
+	for i, item := range generatedStyles.Items[:min(5, len(generatedStyles.Items))] {
+		fmt.Printf("  %d. %s\n", i+1, item.String())
+	}
+	if len(generatedStyles.Items) > 5 {
+		fmt.Printf("  ... and %d more\n", len(generatedStyles.Items)-5)
+	}
+
+	fmt.Println()
+	fmt.Println("🎉 Enhanced type-safe Tailwind CSS system is working!")
+}
+
+// min function for compatibility
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }

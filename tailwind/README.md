@@ -97,29 +97,19 @@ theme := tailwind.DefaultTheme()
 Create custom themes by overriding default values. Now supports all Tailwind configuration categories:
 
 ```go
-customTheme := tailwind.CustomTheme(&tailwind.Theme{
-    Colors: map[string]css.Color{
-        "brand":    css.Hex("#6366f1"),
-        "accent":   css.Hex("#f59e0b"),
-        "danger":   css.Hex("#ef4444"),
-    },
-    Spacing: map[string]css.Length{
-        "xs":  css.Rem(0.125),  // 2px
-        "xl":  css.Rem(5),      // 80px
-        "2xl": css.Rem(6),      // 96px
-    },
-    BorderRadius: map[string]css.Length{
-        "huge": css.Rem(3),     // 48px
-    },
-    BoxShadow: map[string]string{
-        "glow": "0 0 20px rgba(99, 102, 241, 0.5)",
-    },
-    Opacity: map[string]string{
-        "15": "0.15",
-    },
-    FontWeight: map[string]string{
-        "super": "950",
-    },
+customTheme := tailwind.CustomTheme(func(theme *tailwind.Theme) {
+    theme.AddColor("brand", css.Hex("#6366f1"))   // custom brand color
+    theme.AddColor("accent", css.Hex("#f59e0b"))  // accent color
+    theme.AddColor("danger", css.Hex("#ef4444"))  // danger color
+
+    theme.AddSpacing("xs", css.Rem(0.125)) // 2px
+    theme.AddSpacing("xl", css.Rem(5))     // 80px
+    theme.AddSpacing("2xl", css.Rem(6))    // 96px
+
+    theme.AddBorderRadius("huge", css.Rem(3)) // 48px
+    theme.AddBoxShadow("glow", css.Raw("0 0 20px rgba(99, 102, 241, 0.5)"))
+    theme.AddOpacity("15", css.Raw("0.15"))
+    theme.AddFontWeight("super", css.Keyword("950"))
 })
 
 // Use with a custom manager
@@ -280,7 +270,7 @@ tmpl.Execute(os.Stdout, data)
 ### Core Functions
 
 - `DefaultTheme() *Theme` - Returns the default Tailwind-inspired theme
-- `CustomTheme(overrides *Theme) *Theme` - Creates a custom theme by merging with defaults
+- `CustomTheme(modifiers ...func(*Theme)) *Theme` - Creates a custom theme by mutating a fresh default
 - `NewUtilityManager(theme *Theme) *UtilityManager` - Creates a new utility manager
 - `GetDefaultManager() *UtilityManager` - Returns the global default manager
 - `SetDefaultTheme(theme *Theme)` - Updates the default theme

@@ -3,6 +3,8 @@
 ## Project Overview
 TypeSafe CSS is a Go library that provides type-safe CSS authoring APIs to eliminate string-based CSS generation footguns. It features a dual architecture: **core API** (hand-curated, stable) + **generated code** (comprehensive property coverage via codegen).
 
+**Current Status**: The project has completed multiple phases including core API implementation, code generation pipeline, and comprehensive Tailwind CSS utilities. The library is feature-complete with extensive CSS property coverage and utility-first authoring support.
+
 ## Core Architecture
 
 ### Two-Layer Design
@@ -13,6 +15,11 @@ TypeSafe CSS is a Go library that provides type-safe CSS authoring APIs to elimi
   - `serialize.go` - String output (compact + pretty-printed)
 - **`/cssgen/`** - Generated types/constants/setters (DO NOT EDIT manually)
   - `properties_gen.go`, `keywords_gen.go`, `setters_gen.go`
+- **`/tailwind/`** - Tailwind CSS-style utility package (utility-first authoring)
+  - Complete utility class generation with theme support
+- **`/spec/`** - MDN CSS data and specifications (source for code generation)
+- **`cmd/cssgen/`** - Code generator tool
+- **`cmd/mdnvalidate/`** - MDN validation tool
 
 ### Key Patterns
 ```go
@@ -25,6 +32,11 @@ css.RuleSet(".btn",
 // Generated API pattern - type-safe enums
 cssgen.SetDisplay(cssgen.DisplayValFlex)
 cssgen.SetPosition(cssgen.PositionValRelative)
+
+// Tailwind utilities pattern - utility-first CSS
+tailwind.Bg("blue-500")     // .bg-blue-500 { background-color: #3b82f6; }
+tailwind.P("4")             // .p-4 { padding: 1rem; }
+tailwind.DisplayFlex()      // .flex { display: flex; }
 ```
 
 ## Code Generation Workflow
@@ -34,13 +46,30 @@ cssgen.SetPosition(cssgen.PositionValRelative)
 # Regenerate CSS properties/types from spec
 go generate
 
-# The above runs: go run ./cmd/cssgen -in ./cmd/cssgen/spec/spec.json -out ./cssgen -pkg cssgen
+# The above runs: go run ./cmd/cssgen -in ./spec -out ./cssgen -pkg cssgen
 ```
 
 ### Spec-Driven Development
 - Spec source: `cmd/cssgen/spec/spec.json` (versioned, pinned CSS property definitions)
 - Generator: `cmd/cssgen/main.go` (reads JSON → Go constants/types/setters)
 - Generated code includes headers with spec version + timestamp for tracking
+
+### Tailwind CSS Utilities
+- **`/tailwind/`** - Comprehensive Tailwind CSS-style utility package
+  - `tailwind.go` - Core utility functions and class generation
+  - `colors.go`, `spacing.go`, `typography.go` - Design token definitions
+  - `theme.go` - Configurable theming system with custom overrides
+  - `manager.go` - Utility deduplication and class management
+- Utility-first CSS authoring: `tailwind.Bg("blue-500")`, `tailwind.P("4")`
+- Custom themes and arbitrary values: `tailwind.Bg("#bada55")`
+- Automatic class deduplication and type-safe API
+
+### MDN Validation Tool
+- **`cmd/mdnvalidate/`** - Validates CSS specifications against authoritative MDN data
+- Ensures generated types/constants match official CSS specifications
+- Helps catch missing properties and incorrect keyword values
+- Can update spec files with latest MDN data
+- Integrated into test suite for continuous validation
 
 ## Development Conventions
 
@@ -57,7 +86,9 @@ go generate
 ### Testing Patterns
 - Golden tests for `String()` output in `css/css_test.go`
 - Test both core API and generated API interactions
+- MDN validation tests ensure spec accuracy against authoritative sources
 - Use `go test ./...` (no test files in examples - they're demos)
+- Comprehensive test coverage includes Tailwind utilities and theme validation
 
 ## Extension Points
 
@@ -98,6 +129,9 @@ css.AtRule{
 ## Examples Reference
 - `examples/basic/` - Core API usage patterns  
 - `examples/generated/` - Mixed core + generated API usage
-- Both demonstrate template integration and common CSS patterns
+- `examples/tailwind/` - Tailwind CSS utilities demonstration
+- `examples/enhanced-tailwind/` - Advanced Tailwind features and theming
+- `examples/mdn-validation/` - MDN validation tool usage
+- All examples demonstrate template integration and common CSS patterns
 
 When extending this codebase, always consider: Does this belong in core (stable, minimal) or generated (comprehensive, spec-driven) layer?

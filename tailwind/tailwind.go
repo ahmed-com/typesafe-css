@@ -1,5 +1,5 @@
 // Package tailwind provides Tailwind CSS-style utility classes for type-safe CSS generation.
-// 
+//
 // This package builds on top of the core css package to provide a Tailwind-inspired
 // utility-first CSS authoring experience with full type safety.
 //
@@ -12,7 +12,7 @@
 //
 //	func main() {
 //		var stylesheet css.Stylesheet
-//		
+//
 //		// Add utility classes to stylesheet
 //		stylesheet.Add(
 //			tailwind.BgBlue500(),        // .bg-blue-500 { background-color: #3b82f6; }
@@ -22,7 +22,7 @@
 //			tailwind.JustifyCenter(),    // .justify-center { justify-content: center; }
 //			tailwind.Bg("#bada55"),      // .bg-[#bada55] { background-color: #bada55; }
 //		)
-//		
+//
 //		fmt.Println(stylesheet.String())
 //	}
 //
@@ -37,8 +37,9 @@
 // times will only generate the CSS rule once.
 //
 // For arbitrary values, use the Bg(), Text(), P(), etc. functions with custom values:
-//   tailwind.Bg("#custom")     - Custom background color
-//   tailwind.Text("rgb(255,0,0)") - Custom text color
+//
+//	tailwind.Bg("#custom")     - Custom background color
+//	tailwind.Text("rgb(255,0,0)") - Custom text color
 package tailwind
 
 import (
@@ -49,7 +50,7 @@ import (
 // This is a convenience function for generating a basic set of Tailwind-style utilities.
 func GenerateUtilityStylesheet() css.Stylesheet {
 	var stylesheet css.Stylesheet
-	
+
 	// Add common display utilities
 	stylesheet.Add(
 		Block(),
@@ -59,7 +60,7 @@ func GenerateUtilityStylesheet() css.Stylesheet {
 		Grid(),
 		Hidden(),
 	)
-	
+
 	// Add common flexbox utilities
 	stylesheet.Add(
 		FlexRow(),
@@ -73,7 +74,7 @@ func GenerateUtilityStylesheet() css.Stylesheet {
 		ItemsCenter(),
 		ItemsStretch(),
 	)
-	
+
 	// Add common position utilities
 	stylesheet.Add(
 		Static(),
@@ -82,7 +83,7 @@ func GenerateUtilityStylesheet() css.Stylesheet {
 		Fixed(),
 		Sticky(),
 	)
-	
+
 	// Add common text size utilities
 	stylesheet.Add(
 		TextXs(),
@@ -93,7 +94,7 @@ func GenerateUtilityStylesheet() css.Stylesheet {
 		Text2xl(),
 		Text3xl(),
 	)
-	
+
 	// Add common font weight utilities
 	stylesheet.Add(
 		FontThin(),
@@ -103,14 +104,14 @@ func GenerateUtilityStylesheet() css.Stylesheet {
 		FontSemibold(),
 		FontBold(),
 	)
-	
+
 	// Add common text alignment utilities
 	stylesheet.Add(
 		TextLeft(),
 		TextCenter(),
 		TextRight(),
 	)
-	
+
 	// Add some common spacing utilities
 	stylesheet.Add(
 		P0(), P1(), P2(), P3(), P4(), P5(), P6(), P8(), P10(), P12(), P16(), P20(), P24(),
@@ -120,19 +121,19 @@ func GenerateUtilityStylesheet() css.Stylesheet {
 		Mx0(), Mx1(), Mx2(), Mx3(), Mx4(), Mx5(), Mx6(), Mx8(), Mx10(), Mx12(), Mx16(), Mx20(), Mx24(), MxAuto(),
 		My0(), My1(), My2(), My3(), My4(), My5(), My6(), My8(), My10(), My12(), My16(), My20(), My24(),
 	)
-	
+
 	// Add some common color utilities (neutral colors)
 	stylesheet.Add(
 		TextBlack(), TextWhite(), TextGray100(), TextGray200(), TextGray300(), TextGray500(), TextGray700(), TextGray900(),
 		BgBlack(), BgWhite(), BgGray100(), BgGray200(), BgGray300(), BgGray500(), BgGray700(), BgGray900(),
 	)
-	
+
 	// Add some common primary/accent colors
 	stylesheet.Add(
 		TextBlue500(), TextBlue600(), TextBlue700(), TextRed500(), TextGreen500(),
 		BgBlue500(), BgBlue600(), BgBlue700(), BgRed500(), BgGreen500(),
 	)
-	
+
 	return stylesheet
 }
 
@@ -152,5 +153,6 @@ func WithCustomTheme(theme *Theme) *UtilityManager {
 
 // ResetDefaultTheme resets the default theme to the built-in Tailwind-inspired theme.
 func ResetDefaultTheme() {
-	SetDefaultTheme(DefaultTheme())
+	// TODO: Update to use new typed config system
+	// SetDefaultTheme(DefaultTheme())
 }

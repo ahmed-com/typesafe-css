@@ -4,24 +4,25 @@ import (
 	"fmt"
 
 	"github.com/ahmed-com/typesafe-css/css"
+	"github.com/ahmed-com/typesafe-css/cssgen"
 )
 
 // Padding creates a padding utility class.
 // Example: Padding(manager, "4") generates ".p-4 { padding: 1rem; }"
 func Padding(manager *UtilityManager, sizeKey string) css.Rule {
 	className := ClassName("p", sizeKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var size css.Value
-		if length, exists := manager.Theme().Spacing[sizeKey]; exists {
-			size = length
+		if token, exists := manager.Theme().SpacingToken(sizeKey); exists {
+			size = token.Value()
 		} else {
 			// Fallback to treating the key as a direct length value
 			size = css.Raw(sizeKey)
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set(css.Padding, size),
+			css.Set(cssgen.Padding, size),
 		)
 	})
 }
@@ -30,19 +31,19 @@ func Padding(manager *UtilityManager, sizeKey string) css.Rule {
 // Example: PaddingX(manager, "4") generates ".px-4 { padding-left: 1rem; padding-right: 1rem; }"
 func PaddingX(manager *UtilityManager, sizeKey string) css.Rule {
 	className := ClassName("px", sizeKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var size css.Value
-		if length, exists := manager.Theme().Spacing[sizeKey]; exists {
-			size = length
+		if token, exists := manager.Theme().SpacingToken(sizeKey); exists {
+			size = token.Value()
 		} else {
 			// Fallback to treating the key as a direct length value
 			size = css.Raw(sizeKey)
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("padding-left", size),
-			css.Set("padding-right", size),
+			css.Set(cssgen.PaddingLeft, size),
+			css.Set(cssgen.PaddingRight, size),
 		)
 	})
 }
@@ -51,19 +52,19 @@ func PaddingX(manager *UtilityManager, sizeKey string) css.Rule {
 // Example: PaddingY(manager, "4") generates ".py-4 { padding-top: 1rem; padding-bottom: 1rem; }"
 func PaddingY(manager *UtilityManager, sizeKey string) css.Rule {
 	className := ClassName("py", sizeKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var size css.Value
-		if length, exists := manager.Theme().Spacing[sizeKey]; exists {
-			size = length
+		if token, exists := manager.Theme().SpacingToken(sizeKey); exists {
+			size = token.Value()
 		} else {
 			// Fallback to treating the key as a direct length value
 			size = css.Raw(sizeKey)
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("padding-top", size),
-			css.Set("padding-bottom", size),
+			css.Set(cssgen.PaddingTop, size),
+			css.Set(cssgen.PaddingBottom, size),
 		)
 	})
 }
@@ -72,18 +73,18 @@ func PaddingY(manager *UtilityManager, sizeKey string) css.Rule {
 // Example: Margin(manager, "4") generates ".m-4 { margin: 1rem; }"
 func Margin(manager *UtilityManager, sizeKey string) css.Rule {
 	className := ClassName("m", sizeKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var size css.Value
-		if length, exists := manager.Theme().Spacing[sizeKey]; exists {
-			size = length
+		if token, exists := manager.Theme().SpacingToken(sizeKey); exists {
+			size = token.Value()
 		} else {
 			// Fallback to treating the key as a direct length value
 			size = css.Raw(sizeKey)
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set(css.Margin, size),
+			css.Set(cssgen.Margin, size),
 		)
 	})
 }
@@ -92,19 +93,19 @@ func Margin(manager *UtilityManager, sizeKey string) css.Rule {
 // Example: MarginX(manager, "4") generates ".mx-4 { margin-left: 1rem; margin-right: 1rem; }"
 func MarginX(manager *UtilityManager, sizeKey string) css.Rule {
 	className := ClassName("mx", sizeKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var size css.Value
-		if length, exists := manager.Theme().Spacing[sizeKey]; exists {
-			size = length
+		if token, exists := manager.Theme().SpacingToken(sizeKey); exists {
+			size = token.Value()
 		} else {
 			// Fallback to treating the key as a direct length value
 			size = css.Raw(sizeKey)
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("margin-left", size),
-			css.Set("margin-right", size),
+			css.Set(cssgen.MarginLeft, size),
+			css.Set(cssgen.MarginRight, size),
 		)
 	})
 }
@@ -113,19 +114,19 @@ func MarginX(manager *UtilityManager, sizeKey string) css.Rule {
 // Example: MarginY(manager, "4") generates ".my-4 { margin-top: 1rem; margin-bottom: 1rem; }"
 func MarginY(manager *UtilityManager, sizeKey string) css.Rule {
 	className := ClassName("my", sizeKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var size css.Value
-		if length, exists := manager.Theme().Spacing[sizeKey]; exists {
-			size = length
+		if token, exists := manager.Theme().SpacingToken(sizeKey); exists {
+			size = token.Value()
 		} else {
 			// Fallback to treating the key as a direct length value
 			size = css.Raw(sizeKey)
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("margin-top", size),
-			css.Set("margin-bottom", size),
+			css.Set(cssgen.MarginTop, size),
+			css.Set(cssgen.MarginBottom, size),
 		)
 	})
 }
@@ -134,11 +135,11 @@ func MarginY(manager *UtilityManager, sizeKey string) css.Rule {
 // Example: Width(manager, "64") generates ".w-64 { width: 16rem; }"
 func Width(manager *UtilityManager, sizeKey string) css.Rule {
 	className := ClassName("w", sizeKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var size css.Value
-		if length, exists := manager.Theme().Spacing[sizeKey]; exists {
-			size = length
+		if token, exists := manager.Theme().SpacingToken(sizeKey); exists {
+			size = token.Value()
 		} else {
 			// Handle special width values
 			switch sizeKey {
@@ -155,9 +156,9 @@ func Width(manager *UtilityManager, sizeKey string) css.Rule {
 				size = css.Raw(sizeKey)
 			}
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set(css.Width, size),
+			css.Set(cssgen.Width, size),
 		)
 	})
 }
@@ -166,11 +167,11 @@ func Width(manager *UtilityManager, sizeKey string) css.Rule {
 // Example: Height(manager, "64") generates ".h-64 { height: 16rem; }"
 func Height(manager *UtilityManager, sizeKey string) css.Rule {
 	className := ClassName("h", sizeKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var size css.Value
-		if length, exists := manager.Theme().Spacing[sizeKey]; exists {
-			size = length
+		if token, exists := manager.Theme().SpacingToken(sizeKey); exists {
+			size = token.Value()
 		} else {
 			// Handle special height values
 			switch sizeKey {
@@ -187,9 +188,9 @@ func Height(manager *UtilityManager, sizeKey string) css.Rule {
 				size = css.Raw(sizeKey)
 			}
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set(css.Height, size),
+			css.Set(cssgen.Height, size),
 		)
 	})
 }
@@ -240,18 +241,18 @@ func H(sizeKey string) css.Rule {
 // Example: BorderRadius(manager, "lg") generates ".rounded-lg { border-radius: 0.5rem; }"
 func BorderRadius(manager *UtilityManager, radiusKey string) css.Rule {
 	className := ClassName("rounded", radiusKey)
-	
+
 	return manager.GetOrCreateRule(className, func() css.Rule {
 		var radius css.Value
-		if borderRadius, exists := manager.Theme().BorderRadius[radiusKey]; exists {
-			radius = borderRadius
+		if token, exists := manager.Theme().BorderRadiusToken(radiusKey); exists {
+			radius = token.Value()
 		} else {
 			// Fallback to treating the key as a direct length value
 			radius = css.Raw(radiusKey)
 		}
-		
+
 		return css.RuleSet(fmt.Sprintf(".%s", className),
-			css.Set("border-radius", radius),
+			css.Set(cssgen.BorderRadius, radius),
 		)
 	})
 }

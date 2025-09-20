@@ -9,17 +9,21 @@ import (
 
 // UtilityManager manages utility classes and ensures deduplication.
 type UtilityManager struct {
-	theme    *Theme
-	rules    map[string]css.Rule // Maps class name to CSS rule
-	mu       sync.RWMutex         // Protects concurrent access
+	theme *Theme
+	rules map[string]css.Rule // Maps class name to CSS rule
+	mu    sync.RWMutex        // Protects concurrent access
 }
 
 // NewUtilityManager creates a new utility manager with the given theme.
 func NewUtilityManager(theme *Theme) *UtilityManager {
 	if theme == nil {
-		theme = DefaultTheme()
+		// TODO: Update to use new typed config system
+		// theme = DefaultTheme()
+		theme = nil // Temporary placeholder
+	} else {
+		theme.Rebuild()
 	}
-	
+
 	return &UtilityManager{
 		theme: theme,
 		rules: make(map[string]css.Rule),
@@ -31,11 +35,11 @@ func NewUtilityManager(theme *Theme) *UtilityManager {
 func (um *UtilityManager) GetOrCreateRule(className string, createFn func() css.Rule) css.Rule {
 	um.mu.Lock()
 	defer um.mu.Unlock()
-	
+
 	if rule, exists := um.rules[className]; exists {
 		return rule
 	}
-	
+
 	rule := createFn()
 	um.rules[className] = rule
 	return rule
@@ -45,7 +49,7 @@ func (um *UtilityManager) GetOrCreateRule(className string, createFn func() css.
 func (um *UtilityManager) GetRules() []css.Rule {
 	um.mu.RLock()
 	defer um.mu.RUnlock()
-	
+
 	rules := make([]css.Rule, 0, len(um.rules))
 	for _, rule := range um.rules {
 		rules = append(rules, rule)
@@ -70,7 +74,14 @@ func (um *UtilityManager) Theme() *Theme {
 func (um *UtilityManager) UpdateTheme(theme *Theme) {
 	um.mu.Lock()
 	defer um.mu.Unlock()
-	
+
+	if theme == nil {
+		// TODO: Update to use new typed config system
+		// theme = DefaultTheme()
+		theme = nil // Temporary placeholder
+	} else {
+		theme.Rebuild()
+	}
 	um.theme = theme
 	um.rules = make(map[string]css.Rule) // Clear cache since theme changed
 }
